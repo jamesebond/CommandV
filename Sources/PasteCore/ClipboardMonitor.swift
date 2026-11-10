@@ -81,7 +81,7 @@ private func strippedRTF(_ d: Data) -> String {
 
 public func defaultBlobsDirectory() -> URL {
     FileManager.default.urls(for: .applicationSupportDirectory, in: .userDomainMask)[0]
-        .appendingPathComponent("PasteClone/blobs", isDirectory: true)
+        .appendingPathComponent("CommandV/blobs", isDirectory: true)
 }
 
 private func sha256(_ data: Data) -> String {
@@ -188,7 +188,7 @@ public final class ClipboardMonitor: @unchecked Sendable {
     private let sourceProvider: @Sendable () -> NSRunningApplication?
     private let callbackQueue: DispatchQueue
     private let onNewClip: @Sendable (Clip) -> Void
-    private let work = DispatchQueue(label: "pasteclone.monitor", qos: .utility)
+    private let work = DispatchQueue(label: "commandv.monitor", qos: .utility)
     private let lock = NSLock()
     private var lastChangeCount: Int
     private var timer: Timer?

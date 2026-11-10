@@ -69,9 +69,9 @@ private struct PNGBoard: PasteboardReading {
 }
 
 @Suite struct BlobsDirectoryTests {
-    @Test func defaultBlobsDirectoryIsAppSupportPasteCloneBlobs() {
+    @Test func defaultBlobsDirectoryIsAppSupportCommandVBlobs() {
         let expected = FileManager.default.urls(for: .applicationSupportDirectory, in: .userDomainMask)[0]
-            .appendingPathComponent("PasteClone/blobs", isDirectory: true)
+            .appendingPathComponent("CommandV/blobs", isDirectory: true)
         #expect(defaultBlobsDirectory() == expected)
     }
 

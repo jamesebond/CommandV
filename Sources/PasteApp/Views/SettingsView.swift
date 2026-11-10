@@ -59,7 +59,7 @@ final class SettingsModel: ObservableObject {
         do {
             if on { try SMAppService.mainApp.register() } else { try SMAppService.mainApp.unregister() }
             if on, SMAppService.mainApp.status == .requiresApproval {
-                launchMessage = "Approve PasteClone in System Settings > General > Login Items."
+                launchMessage = "Approve CommandV in System Settings > General > Login Items."
             }
         } catch {
             launchMessage = "Couldn't change launch at login: \(error.localizedDescription)"
@@ -145,7 +145,7 @@ final class SettingsModel: ObservableObject {
         panel.canChooseDirectories = false
         panel.directoryURL = URL(fileURLWithPath: "/Applications")
         panel.prompt = "Exclude"
-        panel.message = "Choose an app whose copies PasteClone should never capture."
+        panel.message = "Choose an app whose copies CommandV should never capture."
         guard panel.runModal() == .OK, let url = panel.url else { return }
         guard let id = Bundle(url: url)?.bundleIdentifier else {
             historyMessage = nil

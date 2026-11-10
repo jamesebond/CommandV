@@ -5,11 +5,11 @@ import PasteCore
 extension Notification.Name {
     /// Posted by PanelController.show().
     /// Posted by PanelController.hide().
-    static let panelDidHide = Notification.Name("PasteClone.panelDidHide")
-    static let panelWillShow = Notification.Name("PasteClone.panelWillShow")
+    static let panelDidHide = Notification.Name("CommandV.panelDidHide")
+    static let panelWillShow = Notification.Name("CommandV.panelWillShow")
     /// Posted (on the main queue) when the monitor stores a new clip.
-    static let clipsDeleted = Notification.Name("PasteClone.clipsDeleted")
-    static let clipStored = Notification.Name("PasteClone.clipStored")
+    static let clipsDeleted = Notification.Name("CommandV.clipsDeleted")
+    static let clipStored = Notification.Name("CommandV.clipStored")
 }
 
 @MainActor @Observable
@@ -155,7 +155,7 @@ final class PanelViewModel {
             pinboards = try store.pinboards()
             sourceApps = try store.sourceApps()
         } catch {
-            NSLog("PasteClone: reload failed: \(error)")
+            NSLog("CommandV: reload failed: \(error)")
             clips = []
         }
         if let s = selectedID, !clips.contains(where: { $0.id == s }) { selectedID = clips.first?.id }
@@ -184,7 +184,7 @@ final class PanelViewModel {
 
     func deleteSelected() {
         guard let store, let idx = clips.firstIndex(where: { $0.id == selectedID }) else { return }
-        do { try store.deleteWithFiles(id: clips[idx].id) } catch { NSLog("PasteClone: delete failed: \(error)"); return }
+        do { try store.deleteWithFiles(id: clips[idx].id) } catch { NSLog("CommandV: delete failed: \(error)"); return }
         let next = idx + 1 < clips.count ? clips[idx + 1].id : (idx > 0 ? clips[idx - 1].id : nil)
         selectedID = next
         reload()
@@ -253,7 +253,7 @@ final class PanelViewModel {
                 focusTick += 1
                 return
             }
-        } catch { NSLog("PasteClone: pinboard save failed: \(error)") }
+        } catch { NSLog("CommandV: pinboard save failed: \(error)") }
         pinboardEdit = nil
         reload()
         focusTick += 1
@@ -261,7 +261,7 @@ final class PanelViewModel {
 
     func deletePinboard(_ pb: Pinboard) {
         guard let store else { return }
-        do { try store.deletePinboard(id: pb.id) } catch { NSLog("PasteClone: pinboard delete failed: \(error)"); return }
+        do { try store.deletePinboard(id: pb.id) } catch { NSLog("CommandV: pinboard delete failed: \(error)"); return }
         if activeTab == .pinboard(pb.id) { activeTab = .clipboard }
         reload()
     }
@@ -270,7 +270,7 @@ final class PanelViewModel {
     func pin(clipID: Int64, to pinboardID: Int64?) -> Bool {
         guard let store else { return false }
         do { try store.setPinboard(clipID: clipID, pinboardID: pinboardID) } catch {
-            NSLog("PasteClone: pin failed: \(error)"); return false
+            NSLog("CommandV: pin failed: \(error)"); return false
         }
         reload()
         return true

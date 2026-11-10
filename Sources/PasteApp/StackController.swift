@@ -24,7 +24,7 @@ final class StackController {
             let alive = try store.existingClipIDs(among: stack.clipIDs)
             let dead = Set(stack.clipIDs).subtracting(alive)
             if !dead.isEmpty { stack.remove(clipIDs: dead); notifyChange() }
-        } catch { NSLog("PasteClone: stack prune failed: \(error)") }
+        } catch { NSLog("CommandV: stack prune failed: \(error)") }
     }
 
 

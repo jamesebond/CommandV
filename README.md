@@ -1,4 +1,4 @@
-# Paste
+# CommandV
 
 A clipboard manager for macOS. Everything you copy is saved, searchable and one shortcut away.
 
@@ -22,9 +22,9 @@ A clipboard manager for macOS. Everything you copy is saved, searchable and one 
 
 ## How it works
 
-Paste runs in the menu bar and watches the system pasteboard. Each copy is saved to a local SQLite database together with the app it came from. Images are stored on disk with a thumbnail, and their text is read on your Mac with Apple's Vision framework, then added to a full text index so a screenshot can be found by the words in it.
+CommandV runs in the menu bar and watches the system pasteboard. Each copy is saved to a local SQLite database together with the app it came from. Images are stored on disk with a thumbnail, and their text is read on your Mac with Apple's Vision framework, then added to a full text index so a screenshot can be found by the words in it.
 
-Press ⇧⌘V and a panel slides up along the bottom of the screen. Pick a card with the arrow keys or the mouse and press Return. Paste puts the clip back on the clipboard, returns to the app you were using and sends ⌘V for you. Hold Shift while pressing Return to paste plain text.
+Press ⇧⌘V and a panel slides up along the bottom of the screen. Pick a card with the arrow keys or the mouse and press Return. CommandV puts the clip back on the clipboard, returns to the app you were using and sends ⌘V for you. Hold Shift while pressing Return to paste plain text.
 
 Copies from excluded apps, and anything an app marks as concealed, are never saved. You can edit the excluded list in Settings.
 
@@ -46,10 +46,10 @@ Requires macOS 14 or later and Xcode.
 swift build
 swift test
 scripts/bundle.sh
-open build/PasteClone.app
+open build/CommandV.app
 ```
 
-To paste for you, Paste needs Accessibility access: System Settings, Privacy and Security, Accessibility. Without it, clips are still copied and you press ⌘V yourself. The app is signed ad hoc, so after a rebuild macOS may ask you to grant access again.
+To paste for you, CommandV needs Accessibility access: System Settings, Privacy and Security, Accessibility. Without it, clips are still copied and you press ⌘V yourself. The app is signed ad hoc, so after a rebuild macOS may ask you to grant access again.
 
 ## Limits
 

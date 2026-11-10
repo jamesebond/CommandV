@@ -25,8 +25,9 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
         NSApp.setActivationPolicy(.accessory)
         appearance.apply()
 
-        let dir = FileManager.default.urls(for: .applicationSupportDirectory, in: .userDomainMask)[0]
-            .appendingPathComponent("PasteClone", isDirectory: true)
+        let appSupport = FileManager.default.urls(for: .applicationSupportDirectory, in: .userDomainMask)[0]
+        LegacyDataMigration.migrateIfNeeded(appSupport: appSupport)
+        let dir = appSupport.appendingPathComponent("CommandV", isDirectory: true)
         try? FileManager.default.createDirectory(at: dir, withIntermediateDirectories: true)
         let stack = StackBox()
         do {
@@ -49,7 +50,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
             self.monitor = monitor
             monitor.start()
         } catch {
-            NSLog("PasteClone: failed to open store: \(error)")
+            NSLog("CommandV: failed to open store: \(error)")
         }
 
         let stackController = StackController(monitor: monitor, store: store)
@@ -83,7 +84,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
         stackHotKey = HotKey(id: 2, keyCode: prefs.stackShortcut.keyCode, modifiers: prefs.stackShortcut.modifiers) { [weak stackController] in stackController?.toggle() }
 
         for (hk, name) in [(hotKey, "panel"), (stackHotKey, "stack")] where hk?.registrationStatus != noErr {
-            NSLog("PasteClone: couldn't register the \(name) shortcut (status \(hk?.registrationStatus ?? -1))")
+            NSLog("CommandV: couldn't register the \(name) shortcut (status \(hk?.registrationStatus ?? -1))")
         }
 
         settings.store = store
@@ -107,8 +108,8 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
 
     private func setupStatusItem() {
         let item = NSStatusBar.system.statusItem(withLength: NSStatusItem.variableLength)
-        item.button?.image = NSImage(systemSymbolName: "doc.on.clipboard", accessibilityDescription: "PasteClone")
-        item.button?.toolTip = "PasteClone"
+        item.button?.image = NSImage(systemSymbolName: "doc.on.clipboard", accessibilityDescription: "CommandV")
+        item.button?.toolTip = "CommandV"
         let menu = NSMenu()
         menu.addItem(withTitle: "Open", action: #selector(openPanel), keyEquivalent: "").target = self
         let pause = NSMenuItem(title: "Pause capture", action: #selector(togglePause), keyEquivalent: "")
@@ -139,7 +140,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
     @objc private func openSettings() {
         if settingsWindow == nil {
             let w = NSWindow(contentViewController: NSHostingController(rootView: SettingsView(model: settings)))
-            w.title = "PasteClone settings"
+            w.title = "CommandV settings"
             w.styleMask = [.titled, .closable, .miniaturizable]
             w.isReleasedWhenClosed = false
             w.center()
@@ -165,7 +166,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
             let status = hk.resume()
             if status != noErr {
                 let name = shortcutDisplayString(keyCode: c.keyCode, modifiers: c.modifiers)
-                NSLog("PasteClone: couldn't register \(name) (status \(status))")
+                NSLog("CommandV: couldn't register \(name) (status \(status))")
                 flash("Couldn't register \(name)—it may be used by another app")
             }
         }
@@ -179,7 +180,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
         prefs.target = self
         appMenu.addItem(prefs)
         appMenu.addItem(withTitle: "Close window", action: #selector(NSWindow.performClose(_:)), keyEquivalent: "w")
-        appMenu.addItem(withTitle: "Quit PasteClone", action: #selector(quit), keyEquivalent: "q").target = self
+        appMenu.addItem(withTitle: "Quit CommandV", action: #selector(quit), keyEquivalent: "q").target = self
         appItem.submenu = appMenu
         main.addItem(appItem)
 
@@ -220,6 +221,6 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
         guard let button = statusItem?.button else { return }
         flashToken += 1
         button.title = stackCount.map { " Stack: \($0)" } ?? ""
-        button.toolTip = "PasteClone"
+        button.toolTip = "CommandV"
     }
 }

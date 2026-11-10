@@ -96,7 +96,7 @@ public enum ClipContentResolver {
 
 /// The private, in-process drag type that carries a clip's row id between the cards and the pinboard tabs.
 public enum ClipDragID {
-    public static let typeIdentifier = "com.pasteclone.clip-id"
+    public static let typeIdentifier = "com.commandv.clip-id"
 
     public static func encode(_ id: Int64) -> Data { Data(String(id).utf8) }
 

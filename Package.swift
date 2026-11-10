@@ -2,7 +2,7 @@
 import PackageDescription
 
 let package = Package(
-    name: "PasteClone",
+    name: "CommandV",
     platforms: [.macOS(.v14)],
     targets: [
         .target(name: "PasteCore", linkerSettings: [.linkedLibrary("sqlite3")]),
