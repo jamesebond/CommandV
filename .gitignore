@@ -1,0 +1,6 @@
+.build/
+.superpowers/
+*.app
+.DS_Store
+build/
+build/
