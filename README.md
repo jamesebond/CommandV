@@ -39,18 +39,47 @@ Copies from excluded apps, and anything an app marks as concealed, are never sav
 
 Both global shortcuts can be changed in Settings.
 
-## Build
+## Setup
 
-Requires macOS 14 or later and Xcode.
+You build the app yourself, so you need a Mac running macOS 14 or later and Xcode. Nothing else is required.
+
+1. Install Xcode from the Mac App Store. It is a large download.
+2. Open Xcode once and accept the license when it asks. Wait until it finishes installing extra components, then quit it.
+3. Open Terminal and download the code:
+
+```
+git clone https://github.com/jamesebond/CommandV.git
+cd CommandV
+```
+
+4. Build the app. This takes a few minutes the first time:
+
+```
+scripts/bundle.sh
+```
+
+5. Start it:
+
+```
+open build/CommandV.app
+```
+
+CommandV appears as an icon in the menu bar. Press ⇧⌘V to open the panel.
+
+On a Mac with a notch, the icon can be hidden when the menu bar is full. Quit a few other menu bar apps if you cannot see it. The ⇧⌘V shortcut works either way.
+
+## Allow pasting
+
+To paste for you, CommandV needs Accessibility access. Open System Settings, then Privacy and Security, then Accessibility, and turn on CommandV. Without it, clips are still copied and you press ⌘V yourself.
+
+The app is signed ad hoc, so after you rebuild it macOS may ask you to grant access again.
+
+## For developers
 
 ```
 swift build
 swift test
-scripts/bundle.sh
-open build/CommandV.app
 ```
-
-To paste for you, CommandV needs Accessibility access: System Settings, Privacy and Security, Accessibility. Without it, clips are still copied and you press ⌘V yourself. The app is signed ad hoc, so after a rebuild macOS may ask you to grant access again.
 
 ## Limits
 
